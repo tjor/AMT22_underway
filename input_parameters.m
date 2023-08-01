@@ -9,7 +9,7 @@ warning("off");
 graphics_toolkit("gnuplot");
 
 %-----------------------------
-CRUISE = "AMT24";
+CRUISE = "AMT22";
 
 % Variables to be changed during cruise according to specific setups and user needs
 %
@@ -24,17 +24,16 @@ CRUISE = "AMT24";
  
  
 # default config # ACS 122 system
-#inidate = "20141001"; #  jday 274 - use as test day
-#enddate = "20141001"; 
-inidate = "20141009"; #  jday 268 - start hr 14
-enddate = "20141009"; #  date when ACS breaks
-WAP_ROOT = strcat(lower(CRUISE),'_14') 
-dh8_instruments = {"bb3", "acs"};
-dh8_ports = {2,4}; 
-dh8_serialnumber = {1173,122}; 
-WAPhour = "14";
-ACS_CAL_FILE_NAME = "acs122_20140904.dev";
-#ACS_CAL_FILE_NAME = "acs167.dev";
+#inidate = "20121014"; #  jday = 288 - start hr 1 (files on 287 appear corrupted)
+inidate = "20121016"; #  jday = 288 - start hr 1 (files on 287 appear corrupted)
+enddate = "20121106"; #  jday = 311 - start hr 1 (files on 287 appear corrupted)
+
+WAP_ROOT = strcat(lower(CRUISE),'_12') 
+dh8_instruments = {"acs", "bb3"};
+dh8_ports = {1,3}; 
+dh8_serialnumber = {94,1173}; 
+WAPhour = "05";
+ACS_CAL_FILE_NAME = "acs094.dev";
 %-----------------------------
 
 # ACS 167 system
@@ -113,7 +112,7 @@ UWAY_WAP_SUBDIR = "/";
 
 %-----------------------------
 % Paths
-MAIN_PATH = "/users/rsg/tjor/scratch_network/AMT_underway/AMT24/";
+MAIN_PATH = "/users/rsg/tjor/scratch_network/AMT_underway/AMT22/";
 
 # MAIN_PATH = "/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/AMT26/"; disp("\n\n-----------THIS IS FOR     TOM----------\n\n"); fflush(stdout);
 % MAIN_PATH = "/tom/AMT_underway/AMT28/"; %disp("\n\n---------THIS IS FOR GIORGIO---------\n\n"); fflush(stdout);
@@ -131,19 +130,18 @@ addpath([PATH_SOURCE]);
 % Each directory will contain a series of subdirectories for each instrument
 % (e.g. Underway, Optics_rig, BB3_ctd etc. etc.)
 OPTIC_DIR = "Optics_rig/";
-UWAY_DIR = "Uway/";
+UWAY_DIR = ""; # blank for AMT 22 (different directory srtucture to other cruises).
 BB3_DIR = "BB3_ctd/";
 CTD_DIR = "Ship_CTD/";
 % Specific data subdirectories
-DATA_WAPPED = "WAP_Extracted/";
+DATA_WAPPED = "Optics/WAP_extracted/";
 DATA_RAW = "Raw/";
 DATA_FLOW = "Flow/";
 DATA_WITH_BB3 = "with_BB3/";
 
-
 %-----------------------------
-% calibration file dir
-D_CAL_FILES = [PATH_DATA, UWAY_DIR, "devs/"];
+% calibration file dir 
+D_CAL_FILES = '/data/datasets/cruise_data/active/AMT23/AMT23/underway/Instruments/ACs/SN094/2011Dec28/'
 
 %-----------------------------
 % ACS calibration file
@@ -152,7 +150,7 @@ D_CAL_FILES = [PATH_DATA, UWAY_DIR, "devs/"];
 
 %-----------------------------
 % Ship"s system directories
-#PATH_SHIP = ['/data/datasets/cruise_data/active/AMT24/Ship_data/Compress']; %tjor - ships meteorological data
+PATH_SHIP = [PATH_DATA, 'Ship_data/']
 # PATH_TS = [PATH_SHIP, "Compress/"]; % Directory with ship underway ctd
 #PATH_TS = PATH_SHIP; # no compress directory for amt 26
 
@@ -160,17 +158,17 @@ D_CAL_FILES = [PATH_DATA, UWAY_DIR, "devs/"];
 # Input parameters for ship"s underway data
 # 
 # here we assume that the ship"s uway data are always stored in daily folders called YYYYDOY (e.g., 2018290) 
-#addpath(UWAY_DIR) # location where rd seatech and ocean logger functions are stored
-addpath([MAIN_PATH, "Source/Underway/"]) # location where rd seatech and ocean logger functions are stored
-DIR_GPS = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/seatex-gga/' # hard-coded for amt 24
-GLOB_GPS = "seatex*";
-FN_GPS = "seatex-gga.ACO";
-FNC_GPS = @rd_seatech_gga; # this function should be inside Source/Underway
+#addpath([MAIN_PATH, "Source/Underway/"]) # location where rd seatech and ocean logger functions are #stored
+#DIR_GPS =  [PATH_SHIP, '/underway_daily/']; # 
+#DIR_GPS = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/seatex-gga/' # hard-coded for amt 24
+#GLOB_GPS = "seatex*";
+#FN_GPS = "seatex-gga.ACO";
+#FNC_GPS = @rd_seatech_gga; # this function should be inside Source/Underway
 
-DIR_METDATA = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/oceanlogger/' # hard-coded for amt 24
-GLOB_METDATA = "oceanlogger*";
-FN_METDATA = "oceanlogger.ACO";
-FNC_METDATA = @rd_oceanloggerJCR; # this function should be inside Source/Underway
+#DIR_METDATA = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/oceanlogger/' # hard-coded for amt 24
+#GLOB_METDATA = "oceanlogger*";
+#FN_METDATA = "oceanlogger.ACO";
+#FNC_METDATA = @rd_oceanloggerJCR; # this function should be inside Source/Underway
 
 #----------------------------
 

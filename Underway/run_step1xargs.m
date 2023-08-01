@@ -15,13 +15,12 @@
    % day is processed is WAP file exists for the WAPhour hour
    % (so ideally processing should/could be done in the morning for day before)
    
-   WAPdays = glob([wapdir, WAP_ROOT, '_*MRG*',WAPhour])
+   WAPdays = glob([wapdir, WAP_ROOT, '_*MRG.0*',WAPhour])
 
    % Define indices of days to be processed
    % Initialize index variable
    ijdays = []; 
    
-
    % Cycle through all dates
    for i = 1:size(strdates,1)
 

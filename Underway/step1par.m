@@ -8,6 +8,7 @@ function step1par(jday)
    flowdir = [din,DATA_FLOW];
    savedir = [OUT_PROC UWAY_DIR 'Step1/'];
 
+
    % Create directory if it does not exists
    if ~exist(savedir,'dir')
       mkdir(savedir)
@@ -41,7 +42,8 @@ function step1par(jday)
    % fflush(stdout);
 
    %---GRG----
-   wp = dir([wapdir,fn1, '*19_T_ASCII*']);  %identify each hour of 'iday'
+  # wp = dir([wapdir,fn1, '*19_T_ASCII*']);  %identify each hour of 'iday'
+   wp = dir([wapdir,fn1, '*19_ASCII*']);  %identify each hour of 'iday
 
    %break up the name
    for iwp = 1:size(wp,1)
@@ -103,7 +105,7 @@ function step1par(jday)
    first_hour = 1
    last_hour = size(wapfiles,1)
 
-   for ihour = first_hour:last_hour %reads each hour of data and assign the data to their specific structures
+   for ihour = 1:last_hour %reads each hour of data and assign the data to their specific structures
    % for ihour = last_hour-1:last_hour  %reads each hour of data and assign the data to their specific structures
 
       disp([fn1 ' ' (wapfiles{ihour,2})]);
