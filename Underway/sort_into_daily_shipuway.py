@@ -18,37 +18,47 @@ import shutil
 
 if __name__ == '__main__':
 
+
     jdays = np.arange(288,326,1)
-
-    for i in range(len(jdays)):
-         dir_i = '2012' + str(jdays[i])
-         print(dir_i)
-         os.mkdir('/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/underway_daily/' + dir_i)
-
-
-    jdays = np.arange(289,326,1)
-    for i in range(len(jdays)):
-        file_i = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/daily_1s_' + str(jdays[i]) + '.txt'
-        dist_i =  '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/underway_daily/2012' + str(jdays[i]) + '/daily_1s_gps_meta.txt'
         
-        shutil.copy(file_i,dist_i, follow_symlinks=True)
+    for i in range(2):
         
-   
-   # fn = '/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/underway_data_Seatex-gga_new.txt'
-  #  data = pd.read_csv(fn, sep='\t', header=None)
-#
+        dir_i = '2012' + str(jdays[i])
+        
+        file_i = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/daily_' + str(jdays[i])  + '.txt'
+        file_i_1 = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/daily_' + str(jdays[i]-1) + '.txt'
+        
+        temp_i = pd.read_csv(file_i, sep="^", header=None, skiprows=2,prefix='X')
+        data_i = temp_i.X0.str.split('\s+',expand=True)
+        
+        
+        temp_i_1 = pd.read_csv(file_i_1, sep="^", header=None, skiprows=2,prefix='X')
+        data_i_1 = temp_i_1.X0.str.split('\s+',expand=True)
+        data_i_1 = data_i_1.iloc[:-1]
+            
+        data_combined = pd.concat([data_i_1, data_i], axis=0)
+        data_combined = data_combined.reset_index(drop=True)
+            
+        data_i_new = data_combined.iloc[data_combined[1].values == str(jdays[i])]
+             
+        file_i_new = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original//underway_daily/' + str(dir_i) + '/daily_gps_meta.csv'
+        data_i_new.to_csv(file_i_new, sep=',') 
+         
+    # fn = '/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/underway_data_Seatex-gga_new.txt'
+    #  data = pd.read_csv(fn, sep='\t', header=None)
+    #
     # fn = '/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/underway_data_Seatex-gga.txt'
     # data = pd.read_csv(fn, sep='\t', skiprows=2, header=None)
     
     # create directories
-   # jdays = np.arange(295,296,1)
-   # for i in range(len(jdays)):
+    # jdays = np.arange(295,296,1)
+    # for i in range(len(jdays)):
     #     dir_i = '2013' + str(jdays[i])
-     #    print(dir_i)
-      #   os.mkdir('/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/seatex_daily/' + str(dir_i))
+    #    print(dir_i)
+    #   os.mkdir('/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/seatex_daily/' + str(dir_i))
         
- #   for i in range(len(jdays)):
-  #      data_i = data[np.floor(data[1])==jdays[i]]
+    #   for i in range(len(jdays)):
+    #      data_i = data[np.floor(data[1])==jdays[i]]
    #     dir_i = '2013' + str(jdays[i])
     #    print(len(data_i))
      #   data_i.to_csv('/data/datasets/cruise_data/active/AMT23/AMT23/underway/Ships_underway_data/underway_daily/' + str(dir_i) + '/seatex-gga.csv') 
