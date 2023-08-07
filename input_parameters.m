@@ -24,17 +24,38 @@ CRUISE = "AMT22";
  
  
 # default config # ACS 122 system
-#inidate = "20121014"; #  jday = 288 - start hr 1 (files on 287 appear corrupted)
-inidate = "20121016"; #  jday = 288 - start hr 1 (files on 287 appear corrupted)
-enddate = "20121106"; #  jday = 311 - start hr 1 (files on 287 appear corrupted)
+#'inidate = "20121014"; #  jday = 288 - start hr 1 (files on 287 appear corrupted)
+#inidate = "20121016"; #  
+#enddate = "20121106"; # 
+#inidate = "20121115"; #  
+#enddate = "20121119"; #  
+#inidate = "20121113"; #  
+#enddate = "20121114"; #  
+
 
 WAP_ROOT = strcat(lower(CRUISE),'_12') 
 dh8_instruments = {"acs", "bb3"};
 dh8_ports = {1,3}; 
 dh8_serialnumber = {94,1173}; 
-WAPhour = "05";
+WAPhour = "01";
+ACS_CAL_FILE_NAME = "acs094.dev"
+
+
+# cal connfig
+inidate = "20121120"; 
+enddate = "20121120"; 
+
+WAP_ROOT = strcat('calibration2_amt22','_12') 
+dh8_instruments = {"acs", "bb3"};
+dh8_ports = {1,3}; 
+dh8_serialnumber = {94,1173}; 
+WAPhour = "01";
 ACS_CAL_FILE_NAME = "acs094.dev";
 %-----------------------------
+
+
+
+
 
 # ACS 167 system
 #inidate = "20141001"; #  jday 274 - use as test day
@@ -150,25 +171,27 @@ D_CAL_FILES = '/data/datasets/cruise_data/active/AMT23/AMT23/underway/Instrument
 
 %-----------------------------
 % Ship"s system directories
-PATH_SHIP = [PATH_DATA, 'Ship_data/']
-# PATH_TS = [PATH_SHIP, "Compress/"]; % Directory with ship underway ctd
-#PATH_TS = PATH_SHIP; # no compress directory for amt 26
+PATH_SHIP = [PATH_DATA, 'Ship_data/Original/']
 
 #----------------------------
 # Input parameters for ship"s underway data
-# 
-# here we assume that the ship"s uway data are always stored in daily folders called YYYYDOY (e.g., 2018290) 
-#addpath([MAIN_PATH, "Source/Underway/"]) # location where rd seatech and ocean logger functions are #stored
-#DIR_GPS =  [PATH_SHIP, '/underway_daily/']; # 
-#DIR_GPS = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/seatex-gga/' # hard-coded for amt 24
-#GLOB_GPS = "seatex*";
-#FN_GPS = "seatex-gga.ACO";
-#FNC_GPS = @rd_seatech_gga; # this function should be inside Source/Underway
 
-#DIR_METDATA = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/oceanlogger/' # hard-coded for amt 24
-#GLOB_METDATA = "oceanlogger*";
-#FN_METDATA = "oceanlogger.ACO";
-#FNC_METDATA = @rd_oceanloggerJCR; # this function should be inside Source/Underway
+# NOTE for AMT22 GPS and META data are read from a single text file. For consistency with the newer cruises
+# this file is read via 2 separate functions for GPS and META.
+
+# here we assume that the ship"s uway data are always stored in daily folders called YYYYDOY (e.g., 2018290) 
+addpath([MAIN_PATH, "Source/Underway/"]) # location where @rd_gps_AMT22 @rd_meta_AMT22 are stored
+# DIR_GPS =  [PATH_SHIP, '/underway_daily/']; # 
+# DIR_GPS = '/data/datasets/cruise_data/active/AMT24/Ship_data/Compress/Compress/days/seatex-gga/' # hard-coded for amt 24
+DIR_GPS = [PATH_SHIP, '/underway_daily/']; #
+GLOB_GPS = "2012";
+FN_GPS = "daily_gps_meta.csv";
+FNC_GPS = @rd_gps_AMT22; # this function should be inside Source/Underway
+
+DIR_METDATA = [PATH_SHIP, '/underway_daily/']; #
+GLOB_METDATA = "2012";
+FN_METDATA = "daily_gps_meta.csv";
+FNC_METDATA = @rd_meta_AMT22; # this function should be inside Source/Underway
 
 #----------------------------
 

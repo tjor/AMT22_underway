@@ -19,28 +19,36 @@ import shutil
 if __name__ == '__main__':
 
 
-    jdays = np.arange(288,326,1)
+    jdays = np.arange(325,326,1)
         
-    for i in range(2):
-        
+    for i in range(len(jdays)):
+        print(jdays[i])
         dir_i = '2012' + str(jdays[i])
         
         file_i = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/daily_' + str(jdays[i])  + '.txt'
         file_i_1 = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/daily_' + str(jdays[i]-1) + '.txt'
+    
+        file_t = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original/total.txt'
         
+        temp_t = pd.read_csv(file_t, sep="^", header=None, skiprows=2,prefix='X')
+        data_t = temp_t.X0.str.split('\s+',expand=True)
+            
         temp_i = pd.read_csv(file_i, sep="^", header=None, skiprows=2,prefix='X')
         data_i = temp_i.X0.str.split('\s+',expand=True)
-        
+        print(len(data_i))
         
         temp_i_1 = pd.read_csv(file_i_1, sep="^", header=None, skiprows=2,prefix='X')
         data_i_1 = temp_i_1.X0.str.split('\s+',expand=True)
         data_i_1 = data_i_1.iloc[:-1]
-            
+        print(len(data_i_1))  
+        
         data_combined = pd.concat([data_i_1, data_i], axis=0)
         data_combined = data_combined.reset_index(drop=True)
             
         data_i_new = data_combined.iloc[data_combined[1].values == str(jdays[i])]
-             
+                     
+      #  data_i_new = data_t.iloc[data_t[1].values == str(jdays[i])]
+        
         file_i_new = '/data/datasets/cruise_data/active/AMT22/OSU/Ship_data/Original//underway_daily/' + str(dir_i) + '/daily_gps_meta.csv'
         data_i_new.to_csv(file_i_new, sep=',') 
          

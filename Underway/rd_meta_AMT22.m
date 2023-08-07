@@ -2,6 +2,8 @@ function out = rd_gps_AMT22(fn)
 
       d = csvread(fn,1,0)
  
+   d(1201:1440,24)=nan
+ 
    date_vector = [(2000 + d(:,2)), ones(length(d),1)*month(d(1,3)), day(d(:,3)), zeros(length(d),1) ,[0:1439]',  zeros(length(d),1)];% Y, M ,D ,H ,M ,S
    out.time = datenum(date_vector)
          
