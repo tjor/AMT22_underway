@@ -11,8 +11,8 @@ import ipdb
 
 
 def main(amt_n, amt_y):
-    pathin = '/users/rsg/tjor/scratch_network/AMT_underway/AMT24/Processed/Uway/Step3/' # note: Underway in previous
- #   pathin = '../../../AMT%s/Processed/Uway/Step3/' % amt_n
+    pathin = '/users/rsg/tjor/scratch_network/AMT_underway/AMT22/Processed/Step3/' # note: Underway in previous
+    # pathin = '../../../AMT%s/Processed/Uway/Step3/' % amt_n
     # pathin = '/data/datasets/cruise_data/active/AMT%s/OSU/Optics/AMT%s_source/m/' % (amt_n,amt_n)
     # pathin = '../../Processed/Underway/Step3/'
     fname = 'amt%s_optics.mat' % amt_n
@@ -288,8 +288,8 @@ def main(amt_n, amt_y):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--amt', default='24', help="Number of AMT cruise to process")
-    parser.add_argument('--year', default='2014', help="Year of AMT cruise to process")
+    parser.add_argument('--amt', default='22', help="Number of AMT cruise to process")
+    parser.add_argument('--year', default='2012', help="Year of AMT cruise to process")
     args = parser.parse_args()
     amt_n = args.amt
     amt_y = args.year
